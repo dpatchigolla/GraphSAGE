@@ -1,3 +1,51 @@
+## Hike DS Instructions:
+#### Graph Creation:
+
+Create supporting graph files using the createGraph script in hkg/pyScripts folder
+
+createGraph File:
+seedNodes could be a description of the Graph
+
+embeddingFolder is where the GraphSAGE code is present
+dumpFilesPath is the folder into which the output is written. It should be of format: GraphSAGE/modelName/modelName
+
+rawDataFolder is the place where the nodeInfo and edgeInfo csvs are present
+
+nodeInfo.csv:
+Each row contains user_id, label, featureList. This code assumes there’s only one label per node. If multiple labels are to be present, that needs to be handled separately
+
+edgeInfo.csv:
+Each row contains the user-pairs where a link is present.
+
+Once this code is run, following outputs would be generated in the dumpFilesPath directory:
+
+modelName-G.json
+modelName-id_map.json
+modelName-class_map.json
+modelName_feats.npy
+
+#### Creating walks file:
+
+Once the files are cerated, modelName-walks.txt file needs to be generated. For this, go to GraphSAGE/graphsage directory and run following:
+
+     python utils.py <dumpFilesPath/modelName-G.json>  <dumpFilesPath/modelName-walks.txt>
+
+
+#### Getting embeddings:
+
+Once the walks are generated, go to GraphSAGE directory and run following to generate embeddings:
+
+    python -m graphsage.unsupervised_train --train_prefix ./modelName/modelName --model graphsage_maxpool --max_total_steps 1000 --validate_iter 10
+
+The embeddings are generated as val.npy numpy array under the directory  unsup-modelName. The file val.txt contains the list of user_ids in the same order of embeddings in val.npy
+
+
+
+
+
+
+
+
 ## GraphSage: Representation Learning on Large Graphs
 
 #### Authors: [William L. Hamilton](http://stanford.edu/~wleif) (wleif@stanford.edu), [Rex Ying](http://joy-of-thinking.weebly.com/) (rexying@stanford.edu)

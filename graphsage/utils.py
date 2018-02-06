@@ -95,6 +95,7 @@ if __name__ == "__main__":
     """ Run random walks """
     graph_file = sys.argv[1]
     out_file = sys.argv[2]
+    print(graph_file)
     G_data = json.load(open(graph_file))
     G = json_graph.node_link_graph(G_data)
     nodes = [n for n in G.nodes() if not G.node[n]["val"] and not G.node[n]["test"]]

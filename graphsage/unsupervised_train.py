@@ -11,6 +11,11 @@ from graphsage.minibatch import EdgeMinibatchIterator
 from graphsage.neigh_samplers import UniformNeighborSampler
 from graphsage.utils import load_data
 
+import sys
+from absl import flags
+
+
+
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
 
 # Set random seed
@@ -20,7 +25,6 @@ tf.set_random_seed(seed)
 
 # Settings
 flags = tf.app.flags
-FLAGS = flags.FLAGS
 
 tf.app.flags.DEFINE_boolean('log_device_placement', False,
                             """Whether to log device placement.""")
@@ -53,6 +57,9 @@ flags.DEFINE_integer('validate_batch_size', 256, "how many nodes per validation 
 flags.DEFINE_integer('gpu', 1, "which gpu to use.")
 flags.DEFINE_integer('print_every', 50, "How often to print training info.")
 flags.DEFINE_integer('max_total_steps', 10**10, "Maximum total number of iterations")
+
+FLAGS = flags.FLAGS
+FLAGS(sys.argv)
 
 os.environ["CUDA_VISIBLE_DEVICES"]=str(FLAGS.gpu)
 

@@ -5,6 +5,7 @@ import os
 import time
 import tensorflow as tf
 import numpy as np
+import sys
 import sklearn
 from sklearn import metrics
 
@@ -23,7 +24,6 @@ tf.set_random_seed(seed)
 
 # Settings
 flags = tf.app.flags
-FLAGS = flags.FLAGS
 
 tf.app.flags.DEFINE_boolean('log_device_placement', False,
                             """Whether to log device placement.""")
@@ -55,6 +55,9 @@ flags.DEFINE_integer('validate_batch_size', 256, "how many nodes per validation 
 flags.DEFINE_integer('gpu', 1, "which gpu to use.")
 flags.DEFINE_integer('print_every', 5, "How often to print training info.")
 flags.DEFINE_integer('max_total_steps', 10**10, "Maximum total number of iterations")
+
+FLAGS = flags.FLAGS
+FLAGS(sys.argv)
 
 os.environ["CUDA_VISIBLE_DEVICES"]=str(FLAGS.gpu)
 
